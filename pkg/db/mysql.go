@@ -11,7 +11,7 @@ type MySQL struct {
 }
 
 func (m MySQL) Connect(c Config) {
-	connectionLine := "%s:%s@tcp(%s:%d)/%s"
+	connectionLine := "%s:%s@tcp(%s:%s)/%s"
 	connectionLine = fmt.Sprintf(connectionLine,
 		c.GetUser(), c.GetPassword(), c.GetHost(), c.GetPort(), c.GetDatabase())
 	drive, err := sql.Open("mysql", connectionLine)
