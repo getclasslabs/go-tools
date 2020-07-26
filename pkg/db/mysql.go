@@ -10,7 +10,7 @@ type MySQL struct {
 	db *sql.DB
 }
 
-func (m MySQL) Connect(c Config) {
+func (m *MySQL) Connect(c Config) {
 	connectionLine := "%s:%s@tcp(%s:%s)/%s"
 	connectionLine = fmt.Sprintf(connectionLine,
 		c.GetUser(), c.GetPassword(), c.GetHost(), c.GetPort(), c.GetDatabase())
@@ -21,7 +21,7 @@ func (m MySQL) Connect(c Config) {
 	m.db = drive
 }
 
-func (m MySQL) Insert(i *tracer.Infos, query string, args ...interface{}) (sql.Result, error) {
+func (m *MySQL) Insert(i *tracer.Infos, query string, args ...interface{}) (sql.Result, error) {
 	i.TraceIt("inserting")
 	defer i.Span.Finish()
 
@@ -43,7 +43,7 @@ func (m MySQL) Insert(i *tracer.Infos, query string, args ...interface{}) (sql.R
 	return result, nil
 }
 
-func (m MySQL) Update(i *tracer.Infos, query string, args ...interface{}) (sql.Result, error) {
+func (m *MySQL) Update(i *tracer.Infos, query string, args ...interface{}) (sql.Result, error) {
 	i.TraceIt("updating")
 	defer i.Span.Finish()
 
@@ -65,7 +65,7 @@ func (m MySQL) Update(i *tracer.Infos, query string, args ...interface{}) (sql.R
 	return result, nil
 }
 
-func (m MySQL) Get(i *tracer.Infos, query string, args ...interface{}) (map[string]interface{}, error) {
+func (m *MySQL) Get(i *tracer.Infos, query string, args ...interface{}) (map[string]interface{}, error) {
 	i.TraceIt("select one")
 	defer i.Span.Finish()
 
@@ -112,7 +112,7 @@ func (m MySQL) Get(i *tracer.Infos, query string, args ...interface{}) (map[stri
 	return entry, nil
 }
 
-func (m MySQL) Fetch(i *tracer.Infos, query string, args ...interface{}) ([]map[string]interface{}, error) {
+func (m *MySQL) Fetch(i *tracer.Infos, query string, args ...interface{}) ([]map[string]interface{}, error) {
 	i.TraceIt("select many")
 	defer i.Span.Finish()
 
