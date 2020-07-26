@@ -22,7 +22,7 @@ func (m MySQL) Connect(c Config) {
 }
 
 func (m MySQL) Insert(i *tracer.Infos, query string, args ...interface{}) (sql.Result, error) {
-	i.Span = tracer.TraceIt(i, "inserting")
+	i.TraceIt("inserting")
 	defer i.Span.Finish()
 
 	var result sql.Result
@@ -44,7 +44,7 @@ func (m MySQL) Insert(i *tracer.Infos, query string, args ...interface{}) (sql.R
 }
 
 func (m MySQL) Update(i *tracer.Infos, query string, args ...interface{}) (sql.Result, error) {
-	i.Span = tracer.TraceIt(i, "updating")
+	i.TraceIt("updating")
 	defer i.Span.Finish()
 
 	var result sql.Result
@@ -66,7 +66,7 @@ func (m MySQL) Update(i *tracer.Infos, query string, args ...interface{}) (sql.R
 }
 
 func (m MySQL) Get(i *tracer.Infos, query string, args ...interface{}) (map[string]interface{}, error) {
-	i.Span = tracer.TraceIt(i, "select one")
+	i.TraceIt("select one")
 	defer i.Span.Finish()
 
 	stmt, err := m.db.Prepare(query)
@@ -113,7 +113,7 @@ func (m MySQL) Get(i *tracer.Infos, query string, args ...interface{}) (map[stri
 }
 
 func (m MySQL) Fetch(i *tracer.Infos, query string, args ...interface{}) ([]map[string]interface{}, error) {
-	i.Span = tracer.TraceIt(i, "select many")
+	i.TraceIt("select many")
 	defer i.Span.Finish()
 
 	stmt, err := m.db.Prepare(query)
